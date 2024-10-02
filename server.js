@@ -43,6 +43,18 @@ app.post('/api/authtoken', (req, res) => {
   res.json({ message: responseText });
 });
 
+app.post('/api/validtoken', (req, res) => {
+  const { authToken } = req.body;
+
+  if (!authToken || !verifyAuthToken(authToken)) {
+      return res.status(401).json({ message: 'Token vencido.' });
+  }
+  
+  const responseText = "token autenticado con exito";
+
+  res.json({ message: responseText });
+});
+
 function verifyAuthToken(token) {
   const validToken = process.env.AUTH_TOKEN;
   return token === validToken;
